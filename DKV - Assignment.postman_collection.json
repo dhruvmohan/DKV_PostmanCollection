@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "d9431565-e9df-4c1d-8ed3-250d7dd84006",
+		"name": "DKV - Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50458587",
+		"_collection_link": "https://dhrv2383-3109421.postman.co/workspace/87283fab-2165-4e36-86eb-76e58f468b46/collection/50458587-d9431565-e9df-4c1d-8ed3-250d7dd84006?action=share&source=collection_link&creator=50458587"
+	},
+	"item": [
+		{
+			"name": "Get Request - Positive Test - Valid PetId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Status Code is 200\", () => pm.response.to.have.status(200));\r",
+							"pm.test(\"Check Content-Type is application/json\", () => pm.response.to.have.header(\"content-type\"));\r",
+							"const json = pm.response.json();\r",
+							"pm.test(\"Check response json has category field as a non-empty object\", () => pm.expect(json.category).to.be.a(\"object\").and.not.empty);\r",
+							"pm.test(\"Check response json has name field as a non-empty string\", () => pm.expect(json.name).to.be.a(\"string\").and.not.empty);\r",
+							"pm.test(\"Check response json has photoUrls field as a non-empty object\", () => pm.expect(json.photoUrls).to.be.a(\"array\").and.not.empty);\r",
+							"pm.test(\"Check response json has tags field as a non-empty object\", () => pm.expect(json.tags).to.be.a(\"array\").and.not.empty);\r",
+							"pm.test(\"Check response json has status field as one of the following - available, pending or sold\", () => pm.expect([\"available\",\"pending\",\"sold\"]).to.include(json.status));"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v3/pet/{{validPetId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet",
+						"{{validPetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Request - Negative Test  - Invalid PetId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Status Code is either 400 or 404\", () => {\r",
+							"  pm.expect([400,404]).to.include(pm.response.code);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v3/pet/{{invalidPetId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet",
+						"{{invalidPetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Request - Negative Test  - NonExisting PetId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check Status Code is 404\", () => pm.response.to.have.status(404));\r",
+							"pm.test(\"Check response returns text - Pet not found\", () => pm.expect(pm.response.text()).to.include(\"Pet not found\"));"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v3/pet/{{nonexistingPetId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v3",
+						"pet",
+						"{{nonexistingPetId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "validPetId",
+			"value": ""
+		},
+		{
+			"key": "invalidPetId",
+			"value": ""
+		},
+		{
+			"key": "nonexistingPetId",
+			"value": ""
+		}
+	]
+}
